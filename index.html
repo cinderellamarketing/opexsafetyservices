@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Opex Safety Services — Capsule CRM Spring Clean Session</title>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --primary:#1863DC;
+  --dark:#0d2147;
+  --light:#e8eef4;
+  --accent:#8AC53F;
+  --text:#212121;
+  --text-light:#555;
+  --white:#ffffff;
+  --radius:8px;
+}
+body{
+  font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
+  color:var(--text);
+  background:#f7f9fb;
+  line-height:1.6;
+}
+.container{
+  max-width:820px;
+  margin:0 auto;
+  padding:0 20px;
+}
+
+/* Header */
+header{
+  background:linear-gradient(135deg,var(--dark) 0%,var(--primary) 100%);
+  color:var(--white);
+  padding:48px 20px 40px;
+  text-align:center;
+}
+header h1{
+  font-size:1.9rem;
+  font-weight:700;
+  margin-bottom:6px;
+}
+header .subtitle{
+  font-size:1.05rem;
+  opacity:.88;
+  margin-bottom:12px;
+}
+header .contact{
+  font-size:.85rem;
+  opacity:.7;
+}
+
+/* Video */
+.video-wrap{
+  margin:32px auto;
+  max-width:820px;
+  padding:0 20px;
+}
+.video-frame{
+  position:relative;
+  padding-bottom:56.25%;
+  height:0;
+  border-radius:var(--radius);
+  overflow:hidden;
+  box-shadow:0 4px 20px rgba(0,0,0,.12);
+}
+.video-frame iframe{
+  position:absolute;
+  top:0;left:0;
+  width:100%;height:100%;
+  border:0;
+}
+
+/* Sections */
+.section{
+  background:var(--white);
+  border-radius:var(--radius);
+  margin-bottom:20px;
+  box-shadow:0 1px 4px rgba(0,0,0,.06);
+  overflow:hidden;
+}
+.section-header{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:16px 20px;
+  cursor:pointer;
+  user-select:none;
+  gap:12px;
+  transition:background .15s;
+}
+.section-header:hover{
+  background:var(--light);
+}
+.section-header h2{
+  font-size:1.05rem;
+  font-weight:600;
+  flex:1;
+}
+.section-header .chevron{
+  font-size:.8rem;
+  color:var(--primary);
+  transition:transform .2s;
+  flex-shrink:0;
+}
+.section.open .chevron{
+  transform:rotate(90deg);
+}
+.section-body{
+  display:none;
+  padding:0 20px 20px;
+}
+.section.open .section-body{
+  display:block;
+}
+.section-body p,
+.section-body li{
+  color:var(--text-light);
+  font-size:.95rem;
+  margin-bottom:8px;
+}
+.section-body ul{
+  padding-left:20px;
+  margin-bottom:12px;
+}
+.section-body li{
+  margin-bottom:4px;
+}
+.section-body strong{
+  color:var(--text);
+}
+
+/* Summary card */
+.summary{
+  background:var(--white);
+  border-radius:var(--radius);
+  padding:24px;
+  margin-bottom:24px;
+  box-shadow:0 1px 4px rgba(0,0,0,.06);
+  border-left:4px solid var(--primary);
+}
+.summary h2{
+  font-size:1.1rem;
+  margin-bottom:10px;
+  color:var(--dark);
+}
+.summary p{
+  color:var(--text-light);
+  font-size:.95rem;
+}
+.meta{
+  display:flex;
+  flex-wrap:wrap;
+  gap:16px;
+  margin-top:14px;
+  font-size:.85rem;
+  color:var(--text-light);
+}
+.meta span{
+  background:var(--light);
+  padding:4px 10px;
+  border-radius:4px;
+}
+
+/* Actions */
+.actions{
+  background:var(--white);
+  border-radius:var(--radius);
+  padding:24px;
+  margin-bottom:32px;
+  box-shadow:0 1px 4px rgba(0,0,0,.06);
+  border-left:4px solid var(--accent);
+}
+.actions h2{
+  font-size:1.1rem;
+  margin-bottom:14px;
+  color:var(--dark);
+}
+.action-item{
+  display:flex;
+  gap:10px;
+  padding:10px 0;
+  border-bottom:1px solid #f0f0f0;
+  font-size:.93rem;
+}
+.action-item:last-child{
+  border-bottom:none;
+}
+.action-owner{
+  font-weight:600;
+  color:var(--primary);
+  white-space:nowrap;
+  min-width:56px;
+}
+.action-text{
+  color:var(--text-light);
+}
+
+/* Tip */
+.tip{
+  background:#f0f8e6;
+  border-left:4px solid var(--accent);
+  border-radius:var(--radius);
+  padding:14px 18px;
+  margin:12px 0;
+  font-size:.9rem;
+  color:#3a5a1a;
+}
+
+/* Footer */
+footer{
+  text-align:center;
+  padding:32px 20px 40px;
+  color:var(--text-light);
+  font-size:.82rem;
+}
+footer .brand{
+  font-weight:600;
+  color:var(--dark);
+}
+
+/* Print */
+@media print{
+  header{background:var(--dark)!important;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  .section{break-inside:avoid}
+  .section.open .section-body,.section-body{display:block!important}
+  .chevron{display:none}
+  body{background:#fff}
+}
+
+/* Mobile */
+@media(max-width:600px){
+  header{padding:32px 16px 28px}
+  header h1{font-size:1.5rem}
+  .summary,.actions{padding:18px}
+  .section-header{padding:14px 16px}
+  .section-body{padding:0 16px 16px}
+  .meta{flex-direction:column;gap:8px}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="container">
+    <h1>Opex Safety Services</h1>
+    <div class="subtitle">Capsule CRM &mdash; Spring Clean Session</div>
+    <div class="contact">Prepared by Time Assist &middot; j.okk [at] timeassist.co.uk</div>
+  </div>
+</header>
+
+<div class="video-wrap">
+  <div class="video-frame">
+    <iframe src="https://www.loom.com/embed/0a09aaae207f4d0e95dce01c0f25266b" allowfullscreen></iframe>
+  </div>
+</div>
+
+<div class="container">
+
+  <div class="summary">
+    <h2>Session Summary</h2>
+    <p>A 30-minute spring clean session reviewing how the Opex team is using Capsule after several months of live use. The focus was on resolving specific issues (email storage errors, duplicate user accounts), improving project hygiene, and reinforcing good habits around tasks and pipeline management. The team is generally using Capsule well &mdash; the main challenges are behavioural (task completion discipline, project closure) rather than technical.</p>
+    <div class="meta">
+      <span><strong>Date:</strong> April 2026</span>
+      <span><strong>Attendee:</strong> Mirry Oakes</span>
+      <span><strong>Team:</strong> Chris, Steve, Dave, Sarah, Angela</span>
+    </div>
+  </div>
+
+  <h2 style="font-size:1.15rem;margin:28px 0 14px;color:var(--dark)">Key Notes</h2>
+
+  <!-- Note 1 -->
+  <div class="section open">
+    <div class="section-header">
+      <h2>Email storage error (Angela)</h2>
+      <span class="chevron">&#9654;</span>
+    </div>
+    <div class="section-body">
+      <p>Angela reported an &ldquo;unable to store email&rdquo; error when trying to save emails to Capsule via the sidebar. The issue was caused by two things: one contact (Jason) had a different email address in Capsule than the one the email was sent from, and another contact (Hydro) had no linked project &mdash; Angela was trying to store under a project that did not exist for that contact.</p>
+      <p><strong>Fix:</strong> Store the conversation under the contact or organisation directly, and update Jason&rsquo;s email address in Capsule to match the one he is actually using.</p>
+    </div>
+  </div>
+
+  <!-- Note 2 -->
+  <div class="section">
+    <div class="section-header">
+      <h2>Steve&rsquo;s duplicate account (saving &pound;17/month)</h2>
+      <span class="chevron">&#9654;</span>
+    </div>
+    <div class="section-body">
+      <p>Steve has two Capsule accounts &mdash; his main Opex account and a separate ACS account (&pound;17/month) solely for storing emails from his ACS email address. The ACS account has never actually been used to store any emails.</p>
+      <p><strong>Solution:</strong> Add Steve&rsquo;s ACS email address to his main Opex account, then use the Capsule mail dropbox (BCC the dropbox address when sending emails from ACS) to store those conversations without needing a separate user. The ACS account has been suspended. Once Steve confirms the dropbox method works, the ACS account can be deleted and the records allocated to his main account.</p>
+    </div>
+  </div>
+
+  <!-- Note 3 -->
+  <div class="section">
+    <div class="section-header">
+      <h2>Dave&rsquo;s Outlook authentication</h2>
+      <span class="chevron">&#9654;</span>
+    </div>
+    <div class="section-body">
+      <p>Dave&rsquo;s Outlook connection is showing &ldquo;Authentication failed&rdquo;. This is likely caused by his recent computer change.</p>
+      <p><strong>Fix:</strong> Go to My Preferences &rarr; Mailbox Connections &rarr; disconnect from Outlook &rarr; reconnect. This should re-authenticate the connection on the new machine.</p>
+    </div>
+  </div>
+
+  <!-- Note 4 -->
+  <div class="section">
+    <div class="section-header">
+      <h2>Chris&rsquo;s email connection</h2>
+      <span class="chevron">&#9654;</span>
+    </div>
+    <div class="section-body">
+      <p>Chris&rsquo;s mailbox shows as not connected in Capsule, yet he has been storing some emails (visible in the activity log). He may be using the mail dropbox method rather than the sidebar.</p>
+      <p><strong>Next step:</strong> Mirry to check whether Chris has the Outlook sidebar installed or is using the dropbox, and ensure his mailbox connection is set up properly.</p>
+    </div>
+  </div>
+
+  <!-- Note 5 -->
+  <div class="section">
+    <div class="section-header">
+      <h2>Tracks &mdash; reinstated and improved</h2>
+      <span class="chevron">&#9654;</span>
+    </div>
+    <div class="section-body">
+      <p>Tracks (repeatable task sequences) were originally set up, then deleted at Chris&rsquo;s request, and have now been reinstated by Mirry with improvements. The new tracks for Principal Design and Temporary Works Coordinator work are more detailed and practical. The final task in each track triggers an email to Mirry to invoice.</p>
+      <div class="tip"><strong>Limitation:</strong> If a team member accidentally completes the final task early, the invoice notification fires prematurely and cannot be undone without deleting and reapplying the track (which resets all dates). The workaround is to push the task forward by a week and check back.</div>
+    </div>
+  </div>
+
+  <!-- Note 6 -->
+  <div class="section">
+    <div class="section-header">
+      <h2>Project hygiene</h2>
+      <span class="chevron">&#9654;</span>
+    </div>
+    <div class="section-body">
+      <p>Several projects are not on the project board, have no tags, and some have no tasks or tracks applied. Mirry needs to do a cursory review:</p>
+      <ul>
+        <li>Ensure all projects are added to a board</li>
+        <li>Ensure all projects have a service tag</li>
+        <li>Close completed projects &mdash; if unsure, add a task to the project lead (Angela/Sarah) to confirm closure</li>
+        <li>Check for duplicate projects (e.g. Steve creating a project independently from a won opportunity)</li>
+      </ul>
+      <p>A saved list sorted by &ldquo;Added On&rdquo; was created so Mirry can see recently created projects and spot any she did not know about. A filtered version excluding projects owned by Mirry shows what other team members have created.</p>
+    </div>
+  </div>
+
+  <!-- Note 7 -->
+  <div class="section">
+    <div class="section-header">
+      <h2>Sales pipeline</h2>
+      <span class="chevron">&#9654;</span>
+    </div>
+    <div class="section-body">
+      <p>The pipeline is being used. Mirry has taken ownership of all opportunities (removed from Chris&rsquo;s name to avoid confusion). Mirry also maintains a separate spreadsheet for invoicing and cash flow tracking &mdash; the pipeline is for sales/BD, the spreadsheet is for financial management.</p>
+      <p>Chris wants the pipeline to function as a cash flow view, but Capsule is not a financial tool &mdash; the two systems serve different purposes.</p>
+    </div>
+  </div>
+
+  <!-- Note 8 -->
+  <div class="section">
+    <div class="section-header">
+      <h2>Task discipline</h2>
+      <span class="chevron">&#9654;</span>
+    </div>
+    <div class="section-body">
+      <p>Most of the team is completing tasks on time. Steve is the exception &mdash; tasks overdue from December were eventually cleared after a focused session with Mirry, but new overdue tasks are accumulating.</p>
+      <p>The team is starting Friday team meetings where Mirry will go through overdue tasks with each person as peer accountability.</p>
+      <div class="tip"><strong>How to check:</strong> Tasks &rarr; List view &rarr; Show Overdue &rarr; filter by assignee</div>
+    </div>
+  </div>
+
+  <!-- Note 9 -->
+  <div class="section">
+    <div class="section-header">
+      <h2>Capsule AI</h2>
+      <span class="chevron">&#9654;</span>
+    </div>
+    <div class="section-body">
+      <p>AI Assist was enabled in account settings. Contact enrichment was turned off (not useful for Opex). AI summaries are only available on the Growth plan (double the current price). The Growth plan also offers automatic email storage and enhanced reporting, but neither is essential enough to justify the cost at this stage.</p>
+    </div>
+  </div>
+
+  <h2 style="font-size:1.15rem;margin:28px 0 14px;color:var(--dark)">Actions</h2>
+
+  <div class="actions">
+    <div class="action-item">
+      <span class="action-owner">Mirry</span>
+      <span class="action-text">Update Jason&rsquo;s email address in Capsule to match his current one</span>
+    </div>
+    <div class="action-item">
+      <span class="action-owner">Mirry</span>
+      <span class="action-text">Check whether Steve&rsquo;s mail dropbox test worked &mdash; if yes, delete the suspended ACS account and allocate records to Steve&rsquo;s main account (saves &pound;17/month)</span>
+    </div>
+    <div class="action-item">
+      <span class="action-owner">Mirry</span>
+      <span class="action-text">Ask Dave to disconnect and reconnect his Outlook in My Preferences &rarr; Mailbox Connections</span>
+    </div>
+    <div class="action-item">
+      <span class="action-owner">Mirry</span>
+      <span class="action-text">Check Chris&rsquo;s email setup &mdash; is he using the sidebar or the dropbox? Ensure his mailbox connection is configured</span>
+    </div>
+    <div class="action-item">
+      <span class="action-owner">Mirry</span>
+      <span class="action-text">Go through all projects &mdash; add to board, add service tags, close completed projects or assign confirmation tasks to project leads</span>
+    </div>
+    <div class="action-item">
+      <span class="action-owner">Mirry</span>
+      <span class="action-text">Use the &ldquo;recently added projects&rdquo; saved list to spot new projects created by other team members</span>
+    </div>
+    <div class="action-item">
+      <span class="action-owner">Mirry</span>
+      <span class="action-text">Start using Friday team meetings to review overdue tasks per person (Tasks &rarr; List view &rarr; Show Overdue &rarr; filter by assignee)</span>
+    </div>
+    <div class="action-item">
+      <span class="action-owner">Steve</span>
+      <span class="action-text">Test sending an email from ACS with the dropbox address in BCC &mdash; confirm it stores correctly</span>
+    </div>
+    <div class="action-item">
+      <span class="action-owner">Steve</span>
+      <span class="action-text">Complete overdue tasks and maintain task discipline going forward</span>
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  <p><span class="brand">Time Assist</span> &middot; Capsule CRM Training &amp; Support</p>
+  <p style="margin-top:6px">j.okk [at] timeassist.co.uk</p>
+</footer>
+
+<script>
+document.querySelectorAll('.section-header').forEach(function(header) {
+  header.addEventListener('click', function() {
+    this.parentElement.classList.toggle('open');
+  });
+});
+</script>
+
+</body>
+</html>
